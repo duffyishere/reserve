@@ -9,11 +9,13 @@ import lombok.Getter;
 @Entity
 @Getter
 public class Seat {
-
     @Id
     @GeneratedValue
     private Long id;
 
     @ManyToOne
     private Concert concert;
+
+    private int row;
+    private int colum;
 }

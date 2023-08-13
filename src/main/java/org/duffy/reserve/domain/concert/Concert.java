@@ -9,7 +9,6 @@ import java.util.List;
 @Entity
 @Getter
 public class Concert {
-
     @Id
     @GeneratedValue
     private Long id;
