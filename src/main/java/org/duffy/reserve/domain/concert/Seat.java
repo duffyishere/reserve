@@ -1,13 +1,19 @@
 package org.duffy.reserve.domain.concert;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.duffy.reserve.domain.account.DefaultAccount;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Seat {
     @Id
     @GeneratedValue
@@ -21,6 +27,11 @@ public class Seat {
     private LocalDateTime paymentDeadline;
 
     private boolean isPaid;
+
+    public Seat(int seatNumber, Concert concert) {
+        this.seatNumber = seatNumber;
+        setConcert(concert);
+    }
 
     private void setConcert(Concert concert) {
         this.concert = concert;
