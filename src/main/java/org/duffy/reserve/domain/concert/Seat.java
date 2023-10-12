@@ -12,12 +12,10 @@ public class Seat {
     @Id
     @GeneratedValue
     private Long id;
+    private int seatNumber;
 
     @ManyToOne
     private Concert concert;
-
-    private int row;
-    private int colum;
 
     private boolean isReservation;
     private LocalDateTime paymentDeadline;
