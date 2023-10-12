@@ -8,6 +8,5 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class ConcertService {
-    private final ConcertRepository concertRepository;
-    private final SeatRepository seatRepository;
+
 }
