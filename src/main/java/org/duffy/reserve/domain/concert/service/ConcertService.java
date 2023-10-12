@@ -6,11 +6,11 @@ import org.duffy.reserve.domain.account.SellerAccount;
 import org.duffy.reserve.domain.concert.Concert;
 import org.duffy.reserve.domain.concert.Seat;
 import org.duffy.reserve.domain.concert.dto.CreateConcertRequest;
+import org.duffy.reserve.domain.concert.dto.GetConcertDetailResponse;
 import org.duffy.reserve.domain.concert.repository.ConcertRepository;
 import org.duffy.reserve.domain.concert.repository.SeatRepository;
 import org.springframework.stereotype.Service;
 
-import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +39,12 @@ public class ConcertService {
 
     // 콘서트 수정
     // 콘서트 조회
+    // 콘서트 상세 조회
+    public GetConcertDetailResponse getConcertDetail(Long id) {
+        Concert concert = concertRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No such concert exists."));
+        return concert.toResponse();
+    }
+
     // 콘서트 남은 좌석 조회
     // 콘서트 예매
     // 콘서트 찜하기

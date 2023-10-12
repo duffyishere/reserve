@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import org.duffy.reserve.domain.account.SellerAccount;
 import org.duffy.reserve.domain.base.BaseTimeEntity;
 import org.duffy.reserve.domain.concert.dto.CreateConcertRequest;
+import org.duffy.reserve.domain.concert.dto.GetConcertDetailResponse;
+import org.duffy.reserve.domain.interfaces.DTO;
+import org.duffy.reserve.domain.interfaces.Readable;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -53,5 +56,9 @@ public class Concert extends BaseTimeEntity {
 
     public void addSeats(Seat seat) {
         this.seats.add(seat);
+    }
+
+    public GetConcertDetailResponse toResponse() {
+        return new GetConcertDetailResponse(this);
     }
 }
