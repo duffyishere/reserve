@@ -36,4 +36,9 @@ public class Seat {
         this.concert = concert;
         concert.addSeats(this);
     }
+
+    public void select() {
+        this.isReservation = true;
+        this.paymentDeadline = LocalDateTime.now().plusDays(1);
+    }
 }

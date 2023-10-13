@@ -4,13 +4,14 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.duffy.reserve.domain.account.dto.CreateAccountRequest;
+import org.duffy.reserve.domain.base.BaseTimeEntity;
 
 @Entity
 @Getter
 @Inheritance
 @DiscriminatorColumn
 @NoArgsConstructor
-public class Account {
+public class Account extends BaseTimeEntity {
     @Id
     @GeneratedValue
     private Long id;

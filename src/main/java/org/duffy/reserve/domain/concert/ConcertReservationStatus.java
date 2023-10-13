@@ -1,14 +1,16 @@
 package org.duffy.reserve.domain.concert;
 
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 import org.duffy.reserve.domain.account.DefaultAccount;
+import org.duffy.reserve.domain.base.BaseTimeEntity;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class ConcertReservationStatus {
+@NoArgsConstructor
+public class ConcertReservationStatus extends BaseTimeEntity {
 
     @Id
     private Long id;
@@ -22,5 +24,11 @@ public class ConcertReservationStatus {
     @OneToMany
     private List<Seat> seats = new ArrayList<>();
 
-    private LocalDateTime createdDateTime;
+    public ConcertReservationStatus(DefaultAccount buyer, Concert concert, List<Seat> seats) {
+
+    }
+    private void setBuyer(DefaultAccount buyer) {
+        this.buyer = buyer;
+        buyer.addReservation(this);
+    }
 }

@@ -2,25 +2,29 @@ package org.duffy.reserve.domain.concert.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.duffy.reserve.domain.account.DefaultAccount;
 import org.duffy.reserve.domain.account.SellerAccount;
 import org.duffy.reserve.domain.concert.Concert;
+import org.duffy.reserve.domain.concert.ConcertReservationStatus;
 import org.duffy.reserve.domain.concert.Seat;
 import org.duffy.reserve.domain.concert.dto.CreateConcertRequest;
 import org.duffy.reserve.domain.concert.dto.GetConcertDetailResponse;
+import org.duffy.reserve.domain.concert.dto.ReserveConcertRequest;
 import org.duffy.reserve.domain.concert.dto.SeatResponse;
 import org.duffy.reserve.domain.concert.repository.ConcertRepository;
+import org.duffy.reserve.domain.concert.repository.ConcertReservationStatusRepository;
 import org.duffy.reserve.domain.concert.repository.SeatRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class ConcertService {
     private final ConcertRepository concertRepository;
     private final SeatRepository seatRepository;
+    private final ConcertReservationStatusRepository reservationStatusRepository;
 
     @Transactional
     public void createConcert(SellerAccount seller, CreateConcertRequest body) {
@@ -47,16 +51,41 @@ public class ConcertService {
         return concert.toResponse();
     }
 
-    // 콘서트 남은 좌석 조회
-    public List<SeatResponse> getConcertSeats(Long concertId) {
+    // 콘서트 좌석 조회
+    public List<SeatResponse> getSeatsFor(Long concertId) {
         Concert concert = getConcertById(concertId);
         return seatRepository.findByConcert(concert).stream()
                 .map(SeatResponse::new)
                 .toList();
     }
 
-    // 콘서트 예매
-    // 콘서트 찜하기
+    @Transactional
+    // 콘서트 예약하기
+    public void reserveConcert(DefaultAccount buyer, ReserveConcertRequest body) {
+        Concert concert = getConcertById(body.getConcertId());
+        List<Seat> selectedSeats = selectSeats(concert, body.getSeatNumbers());
+        createConcertReservationStatus(buyer, concert, selectedSeats);
+    }
+
+    private List<Seat> selectSeats(Concert concert, List<Integer> seatNumbers) {
+        List<Seat> seats = new ArrayList<>();
+        for (int seatNumber: seatNumbers) {
+            Seat seat = seatRepository.findByConcertAndSeatNumber(concert, seatNumber).orElseThrow(() -> new IllegalArgumentException("No such seats exists."));
+            if (!isSelectable(seat)) throw new IllegalArgumentException("That seat is already reserved.");
+            seat.select();
+            seats.add(seat);
+        }
+        return seats;
+    }
+
+    private ConcertReservationStatus createConcertReservationStatus(DefaultAccount buyer, Concert concert, List<Seat> selectedSeats) {
+        ConcertReservationStatus reservation = new ConcertReservationStatus(buyer, concert, selectedSeats);
+        return reservationStatusRepository.save(reservation);
+    }
+
+    private boolean isSelectable(Seat seat) {
+        return !seat.isReservation();
+    }
 
     private Concert getConcertById(Long concertId) {
         return concertRepository.findById(concertId).orElseThrow(() -> new IllegalArgumentException("No such concert exists."));
