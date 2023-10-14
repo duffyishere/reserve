@@ -2,7 +2,7 @@ package org.duffy.reserve.domain.concert.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.duffy.reserve.domain.account.DefaultAccount;
+import org.duffy.reserve.domain.account.BuyerAccount;
 import org.duffy.reserve.domain.account.SellerAccount;
 import org.duffy.reserve.domain.concert.Concert;
 import org.duffy.reserve.domain.concert.ConcertReservationStatus;
@@ -61,7 +61,7 @@ public class ConcertService {
 
     @Transactional
     // 콘서트 예약하기
-    public void reserveConcert(DefaultAccount buyer, ReserveConcertRequest body) {
+    public void reserveConcert(BuyerAccount buyer, ReserveConcertRequest body) {
         Concert concert = getConcertById(body.getConcertId());
         List<Seat> selectedSeats = selectSeats(concert, body.getSeatNumbers());
         createConcertReservationStatus(buyer, concert, selectedSeats);
@@ -78,7 +78,7 @@ public class ConcertService {
         return seats;
     }
 
-    private ConcertReservationStatus createConcertReservationStatus(DefaultAccount buyer, Concert concert, List<Seat> selectedSeats) {
+    private ConcertReservationStatus createConcertReservationStatus(BuyerAccount buyer, Concert concert, List<Seat> selectedSeats) {
         ConcertReservationStatus reservation = new ConcertReservationStatus(buyer, concert, selectedSeats);
         return reservationStatusRepository.save(reservation);
     }

@@ -7,11 +7,11 @@ import org.duffy.reserve.domain.concert.ConcertReservationStatus;
 import java.util.ArrayList;
 import java.util.List;
 
-@DiscriminatorValue("default")
+@DiscriminatorValue("buyer")
 @PrimaryKeyJoinColumn(name = "id")
 @Getter
 @Entity
-public class DefaultAccount extends Account {
+public class BuyerAccount extends Account {
 
     @OneToMany(mappedBy = "buyer")
     private List<ConcertReservationStatus> reservedConcerts = new ArrayList<>();

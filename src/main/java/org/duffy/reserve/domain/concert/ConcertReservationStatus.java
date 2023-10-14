@@ -2,7 +2,7 @@ package org.duffy.reserve.domain.concert;
 
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
-import org.duffy.reserve.domain.account.DefaultAccount;
+import org.duffy.reserve.domain.account.BuyerAccount;
 import org.duffy.reserve.domain.base.BaseTimeEntity;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class ConcertReservationStatus extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne
-    private DefaultAccount buyer;
+    private BuyerAccount buyer;
 
     @ManyToOne
     private Concert concert;
@@ -24,10 +24,10 @@ public class ConcertReservationStatus extends BaseTimeEntity {
     @OneToMany
     private List<Seat> seats = new ArrayList<>();
 
-    public ConcertReservationStatus(DefaultAccount buyer, Concert concert, List<Seat> seats) {
+    public ConcertReservationStatus(BuyerAccount buyer, Concert concert, List<Seat> seats) {
 
     }
-    private void setBuyer(DefaultAccount buyer) {
+    private void setBuyer(BuyerAccount buyer) {
         this.buyer = buyer;
         buyer.addReservation(this);
     }
