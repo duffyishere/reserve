@@ -13,6 +13,7 @@ import java.util.List;
 public class ConcertReservationStatus extends BaseTimeEntity {
 
     @Id
+    @GeneratedValue
     private Long id;
 
     @ManyToOne
@@ -25,7 +26,9 @@ public class ConcertReservationStatus extends BaseTimeEntity {
     private List<Seat> seats = new ArrayList<>();
 
     public ConcertReservationStatus(BuyerAccount buyer, Concert concert, List<Seat> seats) {
-
+        setBuyer(buyer);
+        this.concert = concert;
+        this.seats = seats;
     }
     private void setBuyer(BuyerAccount buyer) {
         this.buyer = buyer;
