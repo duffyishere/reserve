@@ -1,5 +1,6 @@
 package org.duffy.reserve.domain.account.service;
 
+import org.duffy.reserve.domain.account.dto.CreateBuyerAccountRequest;
 import org.duffy.reserve.domain.account.dto.CreateSellerRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,16 @@ public class AccountServiceTests {
                 .build();
 
         accountService.createSellerAccount(request);
+    }
+
+    @Test
+    @Rollback(value = false)
+    public void createBuyerAccountTest() {
+        CreateBuyerAccountRequest request = CreateBuyerAccountRequest.builder()
+                .email("seller@icloud.com")
+                .name("seller")
+                .password("test1234!")
+                .build();
+        accountService.createBuyerAccount(request);
     }
 }

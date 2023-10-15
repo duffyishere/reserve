@@ -2,6 +2,8 @@ package org.duffy.reserve.domain.account;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.duffy.reserve.domain.account.dto.CreateBuyerAccountRequest;
 import org.duffy.reserve.domain.concert.ConcertReservationStatus;
 
 import java.util.ArrayList;
@@ -11,10 +13,18 @@ import java.util.List;
 @PrimaryKeyJoinColumn(name = "id")
 @Getter
 @Entity
+<<<<<<< Updated upstream
+=======
+@NoArgsConstructor
+>>>>>>> Stashed changes
 public class BuyerAccount extends Account {
 
     @OneToMany(mappedBy = "buyer")
     private List<ConcertReservationStatus> reservedConcerts = new ArrayList<>();
+
+    public BuyerAccount(CreateBuyerAccountRequest request, String encryptedPassword) {
+        super(request, encryptedPassword);
+    }
 
     public void addReservation(ConcertReservationStatus reservation) {
         reservedConcerts.add(reservation);
