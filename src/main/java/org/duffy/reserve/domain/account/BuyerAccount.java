@@ -13,10 +13,7 @@ import java.util.List;
 @PrimaryKeyJoinColumn(name = "id")
 @Getter
 @Entity
-<<<<<<< Updated upstream
-=======
 @NoArgsConstructor
->>>>>>> Stashed changes
 public class BuyerAccount extends Account {
 
     @OneToMany(mappedBy = "buyer")

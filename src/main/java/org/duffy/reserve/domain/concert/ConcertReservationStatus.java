@@ -26,13 +26,9 @@ public class ConcertReservationStatus extends BaseTimeEntity {
     private List<Seat> seats = new ArrayList<>();
 
     public ConcertReservationStatus(BuyerAccount buyer, Concert concert, List<Seat> seats) {
-<<<<<<< Updated upstream
         setBuyer(buyer);
         this.concert = concert;
         this.seats = seats;
-=======
-
->>>>>>> Stashed changes
     }
     private void setBuyer(BuyerAccount buyer) {
         this.buyer = buyer;
