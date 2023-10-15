@@ -75,6 +75,7 @@ public class ConcertService {
             seat.select();
             seats.add(seat);
         }
+        concert.decreaseRemainSeatCount(seats.size());
         return seats;
     }
 

@@ -28,12 +28,12 @@ public class ConcertServiceTests {
         SellerAccount seller = (SellerAccount) accountRepository.findById(2L).get();
 
         CreateConcertRequest request = CreateConcertRequest.builder()
-                .title("테스트용 공연")
+                .title("테스트용 공연2")
                 .description("해당 공연은 테스트용입니다.")
                 .thumbnailURL("https://google.com")
                 .openDateTime(LocalDateTime.now())
                 .closeDateTime(LocalDateTime.now().plusMonths(1))
-                .seatingCapacity(50)
+                .seatingCapacity(5000)
                 .build();
 
         concertService.createConcert(seller, request);
