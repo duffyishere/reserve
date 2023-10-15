@@ -64,7 +64,7 @@ replay_pid*
 ### Gradle template
 .gradle
 gradle/
-gradlew.*
+#gradlew.*
 **/build/
 !src/**/build/
 
