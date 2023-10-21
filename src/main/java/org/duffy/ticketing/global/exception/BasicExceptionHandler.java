@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class BasicExceptionHandler {
 
-    @ResponseStatus(HttpStatus.OK)  // 409
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> illegalArgumentException(IllegalArgumentException e) {
         return ResponseEntity.ok(e.getMessage());
