@@ -62,9 +62,9 @@ hs_err_pid*
 replay_pid*
 
 ### Gradle template
-.gradle
-gradle/
-gradlew.*
+#.gradle
+#gradle/
+#gradlew.*
 **/build/
 !src/**/build/
 
@@ -87,7 +87,7 @@ gradle-app.setting
 .classpath
 
 # Spring property files (Avoid ignoring default property file)
-**/*.properties
+#**/*.properties
 !application.properties
 
 # DB Account info
