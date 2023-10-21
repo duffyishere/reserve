@@ -6,9 +6,12 @@ import org.duffy.ticketing.domain.account.BuyerAccount;
 import org.duffy.ticketing.domain.account.repository.AccountRepository;
 import org.duffy.ticketing.domain.concert.dto.GetConcertDetailResponse;
 import org.duffy.ticketing.domain.concert.dto.ReserveConcertRequest;
+import org.duffy.ticketing.domain.concert.dto.SeatResponse;
 import org.duffy.ticketing.domain.concert.service.ConcertService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/concert")
@@ -20,6 +23,11 @@ public class ConcertController {
     @GetMapping("/{id}")
     public ResponseEntity<GetConcertDetailResponse> getConcertBy(@PathVariable("id") Long id) {
         return ResponseEntity.status(200).body(concertService.getConcertDetail(id));
+    }
+
+    @GetMapping("/seat/{id}")
+    public ResponseEntity<List<SeatResponse>> getSeatBy(@PathVariable("id") Long id) {
+        return ResponseEntity.status(200).body(concertService.getSeatsFor(id));
     }
 
     @PostMapping("/reserve")
