@@ -2,15 +2,11 @@ server:
   port: 8080
 
 spring:
+  profiles:
+    include: db
   web:
     resources:
       static-locations: META-INF:/resources, classpath:/resources, classpath:/static, classpath:/static/dist
-  # Database
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://18.212.209.223:5432/reserve
-    username: admin
-    password: a2147483647
   # jpa properties
   jpa:
     hibernate:
