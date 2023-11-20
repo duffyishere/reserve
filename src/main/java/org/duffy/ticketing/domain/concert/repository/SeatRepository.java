@@ -11,5 +11,4 @@ import java.util.Optional;
 @Repository
 public interface SeatRepository extends JpaRepository<Seat, Long> {
     List<Seat> findByConcert(Concert concert);
-    Optional<Seat> findByConcertAndSeatNumber(Concert concert, int seatNumbers);
 }

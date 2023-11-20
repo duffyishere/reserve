@@ -20,16 +20,34 @@ public class ConcertController {
     private final ConcertService concertService;
     private final AccountRepository accountRepository;
 
+    /**
+     * Retrieves the concert details by the provided ID.
+     *
+     * @param id The ID of the concert to retrieve.
+     * @return The ResponseEntity containing the GetConcertDetailResponse object with the concert details.
+     */
     @GetMapping("/{id}")
     public ResponseEntity<GetConcertDetailResponse> getConcertBy(@PathVariable("id") Long id) {
         return ResponseEntity.status(200).body(concertService.getConcertDetail(id));
     }
 
+    /**
+     * Retrieves the list of seats for a given concert ID.
+     *
+     * @param id The ID of the concert.
+     * @return A ResponseEntity containing a list of SeatResponse objects representing the seats for the concert.
+     */
     @GetMapping("/seat/{id}")
     public ResponseEntity<List<SeatResponse>> getSeatBy(@PathVariable("id") Long id) {
         return ResponseEntity.status(200).body(concertService.getSeatsFor(id));
     }
 
+    /**
+     * Reserves a concert for a buyer.
+     *
+     * @param body The request object containing the buyer's information and the concert details to reserve.
+     * @return True if the concert was successfully reserved, false otherwise.
+     */
     @PostMapping("/reserve")
     @Transactional
     public ResponseEntity<Boolean> reserveConcert(@RequestBody ReserveConcertRequest body) {
