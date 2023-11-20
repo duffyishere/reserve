@@ -13,6 +13,7 @@ import org.duffy.ticketing.domain.concert.dto.ReserveConcertRequest;
 import org.duffy.ticketing.domain.concert.dto.SeatResponse;
 import org.duffy.ticketing.domain.concert.repository.ConcertRepository;
 import org.duffy.ticketing.domain.concert.repository.ConcertReservationStatusRepository;
+import org.duffy.ticketing.domain.concert.repository.CustomSeatRepository;
 import org.duffy.ticketing.domain.concert.repository.SeatRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ import java.util.stream.IntStream;
 public class ConcertService {
     private final ConcertRepository concertRepository;
     private final SeatRepository seatRepository;
+    private final CustomSeatRepository customSeatRepository;
     private final ConcertReservationStatusRepository reservationStatusRepository;
 
     @Transactional
@@ -62,14 +64,9 @@ public class ConcertService {
     }
 
     private List<Seat> selectSeats(Concert concert, List<Integer> seatNumbers) {
-        List<Seat> seats = seatNumbers.stream()
-                .map(seatNumber -> seatRepository.findByConcertAndSeatNumber(concert, seatNumber)
-                        .orElseThrow(() -> new IllegalArgumentException("No such seats exists.")))
-                .peek(seat -> {
-                    if (!canSelect(seat)) throw new IllegalArgumentException("That seat is already reserved.");
-                    seat.select();
-                })
-                .collect(Collectors.toList());
+        List<Seat> seats = customSeatRepository.findAllBySeatNumbers(seatNumbers, concert);
+        if (seats.size() != seatNumbers.size())
+            throw new IllegalArgumentException("The number of requested seats is not available");
 
         concert.decreaseRemainSeatCount(seats.size());
         return seats;
