@@ -77,10 +77,6 @@ public class ConcertService {
         return reservationStatusRepository.save(reservation);
     }
 
-    private boolean canSelect(Seat seat) {
-        return !seat.isReservation();
-    }
-
     private Concert getConcertById(Long concertId) {
         return concertRepository.findById(concertId).orElseThrow(() -> new IllegalArgumentException("No such concert exists."));
     }
