@@ -16,8 +16,9 @@ import org.duffy.ticketing.domain.concert.repository.ConcertReservationStatusRep
 import org.duffy.ticketing.domain.concert.repository.SeatRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
 @Service
@@ -36,22 +37,16 @@ public class ConcertService {
     }
 
     private List<Seat> createSeats(Concert concert, int capacity) {
-        List<Seat> seats = new ArrayList<>();
-        for (int seatNumber = 1; seatNumber <= capacity; seatNumber++) {
-            seats.add(new Seat(seatNumber, concert));
-        }
-        return seats;
+        return IntStream.rangeClosed(1, capacity)
+                .mapToObj(seatNumber -> new Seat(seatNumber, concert))
+                .collect(Collectors.toList());
     }
 
-    // 콘서트 수정
-    // 콘서트 조회
-    // 콘서트 상세 조회
     public GetConcertDetailResponse getConcertDetail(Long concertId) {
         Concert concert = getConcertById(concertId);
         return concert.toResponse();
     }
 
-    // 콘서트 좌석 조회
     public List<SeatResponse> getSeatsFor(Long concertId) {
         Concert concert = getConcertById(concertId);
         return seatRepository.findByConcert(concert).stream()
@@ -60,7 +55,6 @@ public class ConcertService {
     }
 
     @Transactional
-    // 콘서트 예약하기
     public void reserveConcert(BuyerAccount buyer, ReserveConcertRequest body) {
         Concert concert = getConcertById(body.getConcertId());
         List<Seat> selectedSeats = selectSeats(concert, body.getSeatNumbers());
@@ -68,13 +62,15 @@ public class ConcertService {
     }
 
     private List<Seat> selectSeats(Concert concert, List<Integer> seatNumbers) {
-        List<Seat> seats = new ArrayList<>();
-        for (int seatNumber: seatNumbers) {
-            Seat seat = seatRepository.findByConcertAndSeatNumber(concert, seatNumber).orElseThrow(() -> new IllegalArgumentException("No such seats exists."));
-            if (!isSelectable(seat)) throw new IllegalArgumentException("That seat is already reserved.");
-            seat.select();
-            seats.add(seat);
-        }
+        List<Seat> seats = seatNumbers.stream()
+                .map(seatNumber -> seatRepository.findByConcertAndSeatNumber(concert, seatNumber)
+                        .orElseThrow(() -> new IllegalArgumentException("No such seats exists.")))
+                .peek(seat -> {
+                    if (!canSelect(seat)) throw new IllegalArgumentException("That seat is already reserved.");
+                    seat.select();
+                })
+                .collect(Collectors.toList());
+
         concert.decreaseRemainSeatCount(seats.size());
         return seats;
     }
@@ -84,7 +80,7 @@ public class ConcertService {
         return reservationStatusRepository.save(reservation);
     }
 
-    private boolean isSelectable(Seat seat) {
+    private boolean canSelect(Seat seat) {
         return !seat.isReservation();
     }
 
