@@ -58,7 +58,4 @@ public class Concert extends BaseTimeEntity {
     public void decreaseRemainSeatCount(int num) {
         this.remainingSeats -= num;
     }
-    public GetConcertDetailResponse toResponse() {
-        return new GetConcertDetailResponse(this);
-    }
 }

@@ -46,7 +46,7 @@ public class ConcertService {
 
     public GetConcertDetailResponse getConcertDetail(Long concertId) {
         Concert concert = getConcertById(concertId);
-        return concert.toResponse();
+        return new GetConcertDetailResponse(concert);
     }
 
     public List<SeatResponse> getSeatsFor(Long concertId) {
