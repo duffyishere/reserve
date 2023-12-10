@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.duffy.ticketing.domain.account.dto.CreateBuyerAccountRequest;
-import org.duffy.ticketing.domain.concert.SeatWishlist;
+import org.duffy.ticketing.domain.wishlist.SeatWishlist;
 
 import java.util.ArrayList;
 import java.util.List;

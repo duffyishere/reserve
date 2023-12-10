@@ -18,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ConcertController {
     private final ConcertService concertService;
-    private final AccountRepository accountRepository;
 
     /**
      * Retrieves the concert details by the provided ID.
@@ -42,18 +41,4 @@ public class ConcertController {
         return ResponseEntity.status(200).body(concertService.getSeatsFor(id));
     }
 
-    /**
-     * Reserves a concert for a buyer.
-     *
-     * @param concertRequest The request object containing the buyer's information and the concert details to reserve.
-     * @return True if the concert was successfully reserved, false otherwise.
-     */
-    @PostMapping("/reserve")
-    @Transactional
-    public ResponseEntity<Boolean> reserveConcert(@RequestBody ReserveConcertRequest concertRequest) {
-        // TODO: JWT를 이용한 사용자 조회로 변경
-        BuyerAccount buyer = (BuyerAccount) accountRepository.findById(3L).get();
-        concertService.addToWishlist(concertRequest, buyer);
-        return ResponseEntity.ok(true);
-    }
 }

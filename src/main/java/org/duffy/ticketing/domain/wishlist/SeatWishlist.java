@@ -1,15 +1,19 @@
-package org.duffy.ticketing.domain.concert;
+package org.duffy.ticketing.domain.wishlist;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.duffy.ticketing.domain.account.BuyerAccount;
 import org.duffy.ticketing.domain.base.BaseTimeEntity;
+import org.duffy.ticketing.domain.concert.Concert;
+import org.duffy.ticketing.domain.concert.Seat;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
 @NoArgsConstructor
 public class SeatWishlist extends BaseTimeEntity {
 

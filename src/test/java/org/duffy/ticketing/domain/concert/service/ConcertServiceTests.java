@@ -38,18 +38,4 @@ public class ConcertServiceTests {
 
         concertService.createConcert(seller, request);
     }
-
-    @Test
-    @Transactional
-    @Rollback(value = false)
-    public void createReservationTest() {
-        BuyerAccount buyer = (BuyerAccount) accountRepository.findById(3L).get();
-
-        ReserveConcertRequest concertRequest = ReserveConcertRequest.builder()
-                .concertId(152L)
-                .seatNumbers(List.of(1))
-                .build();
-
-        concertService.addToWishlist(concertRequest, buyer);
-    }
 }
