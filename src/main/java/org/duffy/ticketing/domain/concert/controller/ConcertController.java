@@ -1,12 +1,18 @@
 package org.duffy.ticketing.domain.concert.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.duffy.ticketing.domain.account.SellerAccount;
+import org.duffy.ticketing.domain.concert.dto.CreateConcertRequest;
 import org.duffy.ticketing.domain.concert.dto.GetConcertDetailResponse;
 import org.duffy.ticketing.domain.concert.dto.SeatResponse;
 import org.duffy.ticketing.domain.concert.service.ConcertService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -23,7 +29,7 @@ public class ConcertController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<GetConcertDetailResponse> getConcertBy(@PathVariable("id") Long id) {
-        return ResponseEntity.status(200).body(concertService.getConcertDetail(id));
+        return ResponseEntity.ok(concertService.getConcertDetail(id));
     }
 
     /**
@@ -34,7 +40,13 @@ public class ConcertController {
      */
     @GetMapping("/seat/{id}")
     public ResponseEntity<List<SeatResponse>> getSeatBy(@PathVariable("id") Long id) {
-        return ResponseEntity.status(200).body(concertService.getSeatsFor(id));
+        return ResponseEntity.ok(concertService.getSeatsFor(id));
     }
 
+    @PreAuthorize("hasRole('SELLER')")
+    @PostMapping
+    public ResponseEntity<Boolean> createConcert(@RequestBody CreateConcertRequest request, @AuthenticationPrincipal SellerAccount seller) {
+        concertService.createConcert(seller, request);
+        return ResponseEntity.ok(true);
+    }
 }
