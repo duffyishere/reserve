@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import org.duffy.ticketing.domain.account.SellerAccount;
 import org.duffy.ticketing.domain.base.BaseTimeEntity;
 import org.duffy.ticketing.domain.concert.dto.CreateConcertRequest;
-import org.duffy.ticketing.domain.concert.dto.GetConcertDetailResponse;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -57,5 +56,9 @@ public class Concert extends BaseTimeEntity {
     }
     public void decreaseRemainSeatCount(int num) {
         this.remainingSeats -= num;
+    }
+
+    public boolean isOpenTimePassed() {
+        return LocalDateTime.now().isAfter(this.getOpenDateTime());
     }
 }

@@ -59,6 +59,9 @@ public class ConcertService {
     @Transactional
     public void reserveConcert(BuyerAccount buyer, ReserveConcertRequest body) {
         Concert concert = getConcertById(body.getConcertId());
+        if (!concert.isOpenTimePassed()) {
+            throw new IllegalArgumentException("It's not time to open the reservation yet.");
+        }
         List<Seat> selectedSeats = selectSeats(concert, body.getSeatNumbers());
         createConcertReservationStatus(buyer, concert, selectedSeats);
     }
