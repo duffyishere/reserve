@@ -18,15 +18,16 @@
 git clone https://github.com/duffyishere/ticketing.git
 ```
 
-다음으로 환경 변수를 설정해야 합니다. 프로젝트 루트에 'application-db.yml'파일을 생성하고 다음 변수들을 채우세요:
+다음으로 환경 변수를 설정해야 합니다. 프로젝트 루트에 'application-jwt.yml'파일을 생성하고 다음 변수들을 채우세요:
 
 ``` .env
-spring:
-	datasource:  
-	  driver-class-name: org.postgresql.Driver  
-	  url: ${POSTGRES_URL}/${DB}  
-	  username: ${POSTGRES_ID}  
-	  password: ${POSTGRES_PW}
+application:
+  security:
+    jwt:
+      secret-key: # recommend setting a value of at least 512 bits.
+      expiration: 86400000 # a day
+      refresh-token:
+        expiration: 604800000 # 7 days
 ```
 
 
