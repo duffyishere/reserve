@@ -9,6 +9,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -26,6 +27,9 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfiguration {
     private static final RequestMatcher[] WHITE_LIST_URL = {
             new AntPathRequestMatcher("/api/v1/auth/**"),
+            new AntPathRequestMatcher("/swagger-ui.html"),
+            new AntPathRequestMatcher("/v3/**"),
+            new AntPathRequestMatcher("/swagger-ui/**"),
     };
 
     private final JwtAuthenticationFilter jwtAuthFilter;
@@ -38,12 +42,11 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.ignoringRequestMatchers(PathRequest.toH2Console()))
                 .authorizeHttpRequests(req ->
                         req
-                                .requestMatchers(WHITE_LIST_URL)
-                                .permitAll()
                                 .requestMatchers(PathRequest.toH2Console())
                                 .permitAll()
-                                .anyRequest()
-                                .authenticated()
+                                .requestMatchers(WHITE_LIST_URL)
+                                .permitAll()
+                                .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
