@@ -3,7 +3,7 @@ package org.duffy.ticketing.domain.account;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.duffy.ticketing.domain.account.dto.CreateAccountRequest;
+import org.duffy.ticketing.domain.auth.dto.RegisterAccountRequest;
 import org.duffy.ticketing.domain.base.BaseTimeEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,12 +26,15 @@ public class Account extends BaseTimeEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public Account(CreateAccountRequest request, String encryptedPassword) {
+    public Account(RegisterAccountRequest request, String encryptedPassword) {
         this.email = request.getEmail();
         this.name = request.getName();
         this.password = encryptedPassword;
     }
 
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

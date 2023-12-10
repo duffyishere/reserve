@@ -1,4 +1,4 @@
-package org.duffy.ticketing.domain.account.dto;
+package org.duffy.ticketing.domain.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class CreateAccountRequest {
+public class RegisterAccountRequest {
     private String email;
     private String password;
     private String name;

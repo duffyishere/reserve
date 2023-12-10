@@ -20,9 +20,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private static final String SIGN_IN_URL = "/api/v1/auth";
-    private static final String AUTH_HEADER_NAME = "Authorization";
-    private static final String AUTH_HEADER_PREFIX = "Bearer ";
+    public static final String SIGN_IN_URL = "/api/v1/auth";
+    public static final String AUTH_HEADER_NAME = "Authorization";
+    public static final String AUTH_HEADER_PREFIX = "Bearer ";
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;

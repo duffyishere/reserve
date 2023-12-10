@@ -6,7 +6,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.duffy.ticketing.domain.account.dto.CreateSellerRequest;
+import org.duffy.ticketing.domain.auth.dto.RegisterSellerAccountRequest;
 import org.duffy.ticketing.domain.concert.Concert;
 
 import java.util.ArrayList;
@@ -26,7 +26,8 @@ public class SellerAccount extends Account {
         this.createdConcerts.add(concert);
     }
 
-    public SellerAccount(CreateSellerRequest request, String encryptedPassword) {
+    public SellerAccount(RegisterSellerAccountRequest request, String encryptedPassword) {
         super(request, encryptedPassword);
+        setRole(Role.SELLER);
     }
 }

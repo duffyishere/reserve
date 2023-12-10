@@ -1,7 +1,7 @@
 package org.duffy.ticketing.domain.account.service;
 
-import org.duffy.ticketing.domain.account.dto.CreateBuyerAccountRequest;
-import org.duffy.ticketing.domain.account.dto.CreateSellerRequest;
+import org.duffy.ticketing.domain.auth.dto.RegisterBuyerAccountRequest;
+import org.duffy.ticketing.domain.auth.dto.RegisterSellerAccountRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +16,7 @@ public class AccountServiceTests {
     @Test
     @Rollback(value = false)
     public void createSellerAccountTest() {
-        CreateSellerRequest request = CreateSellerRequest.builder()
+        RegisterSellerAccountRequest request = RegisterSellerAccountRequest.builder()
                 .email("duffy@icloud.com")
                 .name("Junho")
                 .password("test1234!")
@@ -28,7 +28,7 @@ public class AccountServiceTests {
     @Test
     @Rollback(value = false)
     public void createBuyerAccountTest() {
-        CreateBuyerAccountRequest request = CreateBuyerAccountRequest.builder()
+        RegisterBuyerAccountRequest request = RegisterBuyerAccountRequest.builder()
                 .email("seller@icloud.com")
                 .name("seller")
                 .password("test1234!")
