@@ -24,14 +24,12 @@ public class ConcertServiceTests {
     public void createConcertTest() {
         SellerAccount seller = (SellerAccount) accountRepository.findById(1L).get();
 
-        CreateConcertRequest request = CreateConcertRequest.builder()
-                .title("테스트용 공연3")
-                .description("해당 공연은 테스트용입니다.")
-                .thumbnailURL("https://google.com")
-                .openDateTime(LocalDateTime.now())
-                .closeDateTime(LocalDateTime.now().plusMonths(1))
-                .seatingCapacity(1000)
-                .build();
+        CreateConcertRequest request = new CreateConcertRequest("테스트용 공연3",
+                "해당 공연은 테스트용입니다.",
+                "https://google.com",
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMonths(1),
+                1000);
 
         concertService.createConcert(seller, request);
     }

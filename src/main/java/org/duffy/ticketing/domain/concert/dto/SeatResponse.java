@@ -1,17 +1,9 @@
 package org.duffy.ticketing.domain.concert.dto;
 
-import lombok.Data;
 import org.duffy.ticketing.domain.concert.Seat;
 
-@Data
-public class SeatResponse {
-    private Long id;
-    private int seatNumber;
-    private boolean isReservation;
-
+public record SeatResponse(Long id, int seatNumber, boolean isReservation) {
     public SeatResponse(Seat seat) {
-        this.id = seat.getId();
-        this.seatNumber = seat.getSeatNumber();
-        this.isReservation = seat.isAddedToWishlist();
+        this(seat.getId(), seat.getSeatNumber(), seat.isAddedToWishlist());
     }
 }

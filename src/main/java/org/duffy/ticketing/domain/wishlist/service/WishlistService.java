@@ -33,12 +33,12 @@ public class WishlistService {
 
     @Transactional
     public void addToWishlist(ReserveConcertRequest concertRequest, BuyerAccount buyer) {
-        Concert concert = concertService.getConcertById(concertRequest.getConcertId());
+        Concert concert = concertService.getConcertById(concertRequest.concertId());
         if (!concert.isOpenTimePassed()) {
             throw new IllegalArgumentException("It's not time to open the reservation yet.");
         }
 
-        List<Seat> selectedSeats = getSeatsBySeatNumber(concert, concertRequest.getSeatNumbers());
+        List<Seat> selectedSeats = getSeatsBySeatNumber(concert, concertRequest.seatNumbers());
         createSeatWishlist(buyer, concert, selectedSeats);
     }
 

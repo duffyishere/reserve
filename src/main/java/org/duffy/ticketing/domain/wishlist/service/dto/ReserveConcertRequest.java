@@ -7,11 +7,5 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class ReserveConcertRequest {
-    private Long concertId;
-    private List<Integer> seatNumbers;
+public record ReserveConcertRequest(Long concertId, List<Integer> seatNumbers) {
 }

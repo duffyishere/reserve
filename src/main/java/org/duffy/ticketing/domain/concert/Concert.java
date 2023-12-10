@@ -36,13 +36,13 @@ public class Concert extends BaseTimeEntity {
     private int remainingSeats = 0;
 
     public Concert(SellerAccount seller, CreateConcertRequest request) {
-        this.title = request.getTitle();
-        this.description = request.getDescription();
-        this.thumbnailURL = request.getThumbnailURL();
-        this.openDateTime = request.getOpenDateTime();
-        this.closeDateTime = request.getCloseDateTime();
-        this.seatingCapacity = request.getSeatingCapacity();
-        this.remainingSeats = request.getSeatingCapacity();
+        this.title = request.title();
+        this.description = request.description();
+        this.thumbnailURL = request.thumbnailURL();
+        this.openDateTime = request.openDateTime();
+        this.closeDateTime = request.closeDateTime();
+        this.seatingCapacity = request.seatingCapacity();
+        this.remainingSeats = request.seatingCapacity();
         setSellerAccount(seller);
     }
 

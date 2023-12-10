@@ -27,7 +27,7 @@ public class ConcertService {
         Concert concert = new Concert(seller, body);
         concertRepository.save(concert);
 
-        List<Seat> seats = createSeats(concert, body.getSeatingCapacity());
+        List<Seat> seats = createSeats(concert, body.seatingCapacity());
         seatRepository.saveAll(seats);
     }
 
