@@ -5,14 +5,16 @@ import lombok.RequiredArgsConstructor;
 import org.duffy.ticketing.domain.account.BuyerAccount;
 import org.duffy.ticketing.domain.concert.Concert;
 import org.duffy.ticketing.domain.concert.Seat;
-import org.duffy.ticketing.domain.concert.dto.ReserveConcertRequest;
+import org.duffy.ticketing.domain.wishlist.service.dto.ReserveConcertRequest;
 import org.duffy.ticketing.domain.concert.repository.CustomSeatRepository;
 import org.duffy.ticketing.domain.concert.service.ConcertService;
 import org.duffy.ticketing.domain.wishlist.SeatWishlist;
 import org.duffy.ticketing.domain.wishlist.repository.SeatWishlistRepository;
+import org.duffy.ticketing.domain.wishlist.service.dto.WishlistResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +24,12 @@ public class WishlistService {
     private final SeatWishlistRepository wishlistRepository;
 
     private static final long PAYMENT_PERIOD_IN_DAYS = 1;
+
+    public List<WishlistResponse> getWishlist(BuyerAccount buyer) {
+        return wishlistRepository.findByBuyer(buyer).stream()
+                .map(WishlistResponse::new)
+                .collect(Collectors.toList());
+    }
 
     @Transactional
     public void addToWishlist(ReserveConcertRequest concertRequest, BuyerAccount buyer) {

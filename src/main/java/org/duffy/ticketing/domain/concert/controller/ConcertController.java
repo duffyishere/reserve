@@ -1,11 +1,7 @@
 package org.duffy.ticketing.domain.concert.controller;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.duffy.ticketing.domain.account.BuyerAccount;
-import org.duffy.ticketing.domain.account.repository.AccountRepository;
 import org.duffy.ticketing.domain.concert.dto.GetConcertDetailResponse;
-import org.duffy.ticketing.domain.concert.dto.ReserveConcertRequest;
 import org.duffy.ticketing.domain.concert.dto.SeatResponse;
 import org.duffy.ticketing.domain.concert.service.ConcertService;
 import org.springframework.http.ResponseEntity;

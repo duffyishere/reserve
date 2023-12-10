@@ -1,18 +1,15 @@
 package org.duffy.ticketing.domain.concert.service;
 
 import jakarta.transaction.Transactional;
-import org.duffy.ticketing.domain.account.BuyerAccount;
 import org.duffy.ticketing.domain.account.SellerAccount;
 import org.duffy.ticketing.domain.account.repository.AccountRepository;
 import org.duffy.ticketing.domain.concert.dto.CreateConcertRequest;
-import org.duffy.ticketing.domain.concert.dto.ReserveConcertRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @SpringBootTest
 public class ConcertServiceTests {
