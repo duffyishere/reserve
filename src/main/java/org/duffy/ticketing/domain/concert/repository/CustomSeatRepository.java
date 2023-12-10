@@ -27,7 +27,7 @@ public class CustomSeatRepository {
                 .where(
                         seat.concert.eq(concert),
                         seat.seatNumber.in(numbers),
-                        seat.isReservation.isFalse()
+                        seat.isAddedToWishlist.isFalse()
                 )
                 .fetch();
     }

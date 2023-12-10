@@ -45,11 +45,11 @@ public class ConcertServiceTests {
     public void createReservationTest() {
         BuyerAccount buyer = (BuyerAccount) accountRepository.findById(3L).get();
 
-        ReserveConcertRequest request = ReserveConcertRequest.builder()
+        ReserveConcertRequest concertRequest = ReserveConcertRequest.builder()
                 .concertId(152L)
                 .seatNumbers(List.of(1))
                 .build();
 
-        concertService.reserveConcert(buyer, request);
+        concertService.addToWishlist(concertRequest, buyer);
     }
 }

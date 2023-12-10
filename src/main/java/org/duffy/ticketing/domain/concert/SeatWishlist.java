@@ -5,12 +5,13 @@ import lombok.NoArgsConstructor;
 import org.duffy.ticketing.domain.account.BuyerAccount;
 import org.duffy.ticketing.domain.base.BaseTimeEntity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @NoArgsConstructor
-public class ConcertReservationStatus extends BaseTimeEntity {
+public class SeatWishlist extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
@@ -21,17 +22,20 @@ public class ConcertReservationStatus extends BaseTimeEntity {
 
     @ManyToOne
     private Concert concert;
-
     @OneToMany
     private List<Seat> seats = new ArrayList<>();
 
-    public ConcertReservationStatus(BuyerAccount buyer, Concert concert, List<Seat> seats) {
+    private LocalDateTime paymentDeadline;
+
+    public SeatWishlist(BuyerAccount buyer, Concert concert, List<Seat> seats, long paymentPeriodInDays) {
         setBuyer(buyer);
         this.concert = concert;
         this.seats = seats;
+        this.paymentDeadline = LocalDateTime.now().plusDays(paymentPeriodInDays);
     }
+
     private void setBuyer(BuyerAccount buyer) {
         this.buyer = buyer;
-        buyer.addReservation(this);
+        buyer.addToWishList(this);
     }
 }

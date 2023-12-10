@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.duffy.ticketing.domain.account.BuyerAccount;
 import org.duffy.ticketing.domain.account.SellerAccount;
 import org.duffy.ticketing.domain.concert.Concert;
-import org.duffy.ticketing.domain.concert.ConcertReservationStatus;
+import org.duffy.ticketing.domain.concert.SeatWishlist;
 import org.duffy.ticketing.domain.concert.Seat;
 import org.duffy.ticketing.domain.concert.dto.CreateConcertRequest;
 import org.duffy.ticketing.domain.concert.dto.GetConcertDetailResponse;
@@ -28,6 +28,8 @@ public class ConcertService {
     private final SeatRepository seatRepository;
     private final CustomSeatRepository customSeatRepository;
     private final ConcertReservationStatusRepository reservationStatusRepository;
+
+    private final long paymentPeriodInDays = 1;
 
     @Transactional
     public void createConcert(SellerAccount seller, CreateConcertRequest body) {
@@ -57,27 +59,30 @@ public class ConcertService {
     }
 
     @Transactional
-    public void reserveConcert(BuyerAccount buyer, ReserveConcertRequest body) {
-        Concert concert = getConcertById(body.getConcertId());
+    public void addToWishlist(ReserveConcertRequest concertRequest, BuyerAccount buyer) {
+        Concert concert = getConcertById(concertRequest.getConcertId());
         if (!concert.isOpenTimePassed()) {
             throw new IllegalArgumentException("It's not time to open the reservation yet.");
         }
-        List<Seat> selectedSeats = selectSeats(concert, body.getSeatNumbers());
-        createConcertReservationStatus(buyer, concert, selectedSeats);
+
+        List<Seat> selectedSeats = getSeatsBySeatNumber(concert, concertRequest.getSeatNumbers());
+        createSeatWishlist(buyer, concert, selectedSeats);
     }
 
-    private List<Seat> selectSeats(Concert concert, List<Integer> seatNumbers) {
+    private List<Seat> getSeatsBySeatNumber(Concert concert, List<Integer> seatNumbers) {
         List<Seat> seats = customSeatRepository.findAllBySeatNumbers(seatNumbers, concert);
         if (seats.size() != seatNumbers.size())
             throw new IllegalArgumentException("The number of requested seats is not available");
 
-        concert.decreaseRemainSeatCount(seats.size());
         return seats;
     }
 
-    private ConcertReservationStatus createConcertReservationStatus(BuyerAccount buyer, Concert concert, List<Seat> selectedSeats) {
-        ConcertReservationStatus reservation = new ConcertReservationStatus(buyer, concert, selectedSeats);
-        return reservationStatusRepository.save(reservation);
+    private void createSeatWishlist(BuyerAccount buyer, Concert concert, List<Seat> selectedSeats) {
+        SeatWishlist wishlist = new SeatWishlist(buyer, concert, selectedSeats, paymentPeriodInDays);
+        selectedSeats.forEach(Seat::select);
+        reservationStatusRepository.save(wishlist);
+
+        concert.decreaseRemainSeatCount(selectedSeats.size());
     }
 
     private Concert getConcertById(Long concertId) {

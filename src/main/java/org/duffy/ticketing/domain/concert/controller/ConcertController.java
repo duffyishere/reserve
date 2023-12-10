@@ -45,15 +45,15 @@ public class ConcertController {
     /**
      * Reserves a concert for a buyer.
      *
-     * @param body The request object containing the buyer's information and the concert details to reserve.
+     * @param concertRequest The request object containing the buyer's information and the concert details to reserve.
      * @return True if the concert was successfully reserved, false otherwise.
      */
     @PostMapping("/reserve")
     @Transactional
-    public ResponseEntity<Boolean> reserveConcert(@RequestBody ReserveConcertRequest body) {
+    public ResponseEntity<Boolean> reserveConcert(@RequestBody ReserveConcertRequest concertRequest) {
         // TODO: JWT를 이용한 사용자 조회로 변경
         BuyerAccount buyer = (BuyerAccount) accountRepository.findById(3L).get();
-        concertService.reserveConcert(buyer, body);
+        concertService.addToWishlist(concertRequest, buyer);
         return ResponseEntity.ok(true);
     }
 }

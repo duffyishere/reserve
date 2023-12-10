@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Getter
 @AllArgsConstructor
@@ -22,13 +20,14 @@ public class Seat {
     @ManyToOne
     private Concert concert;
 
-    private boolean isReservation;
-    private LocalDateTime paymentDeadline;
+    private boolean isAddedToWishlist;
 
     private boolean isPaid;
 
     public Seat(int seatNumber, Concert concert) {
         this.seatNumber = seatNumber;
+        this.isAddedToWishlist = false;
+        this.isPaid = false;
         setConcert(concert);
     }
 
@@ -38,7 +37,6 @@ public class Seat {
     }
 
     public void select() {
-        this.isReservation = true;
-        this.paymentDeadline = LocalDateTime.now().plusDays(1);
+        this.isAddedToWishlist = true;
     }
 }

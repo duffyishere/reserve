@@ -12,6 +12,6 @@ public class SeatResponse {
     public SeatResponse(Seat seat) {
         this.id = seat.getId();
         this.seatNumber = seat.getSeatNumber();
-        this.isReservation = seat.isReservation();
+        this.isReservation = seat.isAddedToWishlist();
     }
 }
