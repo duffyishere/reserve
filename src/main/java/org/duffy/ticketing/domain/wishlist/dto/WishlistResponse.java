@@ -1,4 +1,4 @@
-package org.duffy.ticketing.domain.wishlist.service.dto;
+package org.duffy.ticketing.domain.wishlist.dto;
 
 import org.duffy.ticketing.domain.concert.dto.ConcertSummaryResponse;
 import org.duffy.ticketing.domain.concert.dto.SeatResponse;

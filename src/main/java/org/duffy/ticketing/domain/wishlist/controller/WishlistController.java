@@ -3,9 +3,9 @@ package org.duffy.ticketing.domain.wishlist.controller;
 import lombok.RequiredArgsConstructor;
 import org.duffy.ticketing.domain.account.BuyerAccount;
 import org.duffy.ticketing.domain.account.repository.AccountRepository;
-import org.duffy.ticketing.domain.wishlist.service.dto.ReserveConcertRequest;
+import org.duffy.ticketing.domain.wishlist.dto.ReserveConcertRequest;
 import org.duffy.ticketing.domain.wishlist.service.WishlistService;
-import org.duffy.ticketing.domain.wishlist.service.dto.WishlistResponse;
+import org.duffy.ticketing.domain.wishlist.dto.WishlistResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

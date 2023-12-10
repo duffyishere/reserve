@@ -1,4 +1,4 @@
-package org.duffy.ticketing.domain.wishlist.service.dto;
+package org.duffy.ticketing.domain.wishlist.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -5,12 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.duffy.ticketing.domain.account.BuyerAccount;
 import org.duffy.ticketing.domain.concert.Concert;
 import org.duffy.ticketing.domain.concert.Seat;
-import org.duffy.ticketing.domain.wishlist.service.dto.ReserveConcertRequest;
+import org.duffy.ticketing.domain.wishlist.dto.ReserveConcertRequest;
 import org.duffy.ticketing.domain.concert.repository.CustomSeatRepository;
 import org.duffy.ticketing.domain.concert.service.ConcertService;
 import org.duffy.ticketing.domain.wishlist.SeatWishlist;
 import org.duffy.ticketing.domain.wishlist.repository.SeatWishlistRepository;
-import org.duffy.ticketing.domain.wishlist.service.dto.WishlistResponse;
+import org.duffy.ticketing.domain.wishlist.dto.WishlistResponse;
+import org.duffy.ticketing.global.config.JwtService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
