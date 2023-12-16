@@ -1,6 +1,7 @@
 package org.duffy.ticketing.domain.concert.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.duffy.ticketing.domain.account.Account;
 import org.duffy.ticketing.domain.account.SellerAccount;
 import org.duffy.ticketing.domain.concert.dto.CreateConcertRequest;
 import org.duffy.ticketing.domain.concert.dto.GetConcertDetailResponse;
@@ -21,23 +22,11 @@ import java.util.List;
 public class ConcertController {
     private final ConcertService concertService;
 
-    /**
-     * Retrieves the concert details by the provided ID.
-     *
-     * @param id The ID of the concert to retrieve.
-     * @return The ResponseEntity containing the GetConcertDetailResponse object with the concert details.
-     */
     @GetMapping("/{id}")
     public ResponseEntity<GetConcertDetailResponse> getConcertBy(@PathVariable("id") Long id) {
         return ResponseEntity.ok(concertService.getConcertDetail(id));
     }
 
-    /**
-     * Retrieves the list of seats for a given concert ID.
-     *
-     * @param id The ID of the concert.
-     * @return A ResponseEntity containing a list of SeatResponse objects representing the seats for the concert.
-     */
     @GetMapping("/seat/{id}")
     public ResponseEntity<List<SeatResponse>> getSeatBy(@PathVariable("id") Long id) {
         return ResponseEntity.ok(concertService.getSeatsFor(id));
@@ -45,8 +34,9 @@ public class ConcertController {
 
     @PreAuthorize("hasRole('SELLER')")
     @PostMapping
-    public ResponseEntity<Boolean> createConcert(@RequestBody CreateConcertRequest request, @AuthenticationPrincipal SellerAccount seller) {
-        concertService.createConcert(seller, request);
+    public ResponseEntity<Boolean> createConcert(@AuthenticationPrincipal Account account,
+                                                 @RequestBody CreateConcertRequest request) {
+        concertService.createConcert((SellerAccount) account, request);
         return ResponseEntity.ok(true);
     }
 }

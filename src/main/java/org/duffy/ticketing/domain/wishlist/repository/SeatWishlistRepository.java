@@ -1,5 +1,6 @@
 package org.duffy.ticketing.domain.wishlist.repository;
 
+import org.duffy.ticketing.domain.account.Account;
 import org.duffy.ticketing.domain.account.BuyerAccount;
 import org.duffy.ticketing.domain.wishlist.SeatWishlist;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,5 +10,5 @@ import java.util.List;
 
 @Repository
 public interface SeatWishlistRepository extends JpaRepository<SeatWishlist, Long> {
-    List<SeatWishlist> findByBuyer(BuyerAccount buyerAccount);
+    List<SeatWishlist> findByBuyer(Account buyerAccount);
 }

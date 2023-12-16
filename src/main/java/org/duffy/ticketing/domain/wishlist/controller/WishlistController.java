@@ -1,12 +1,15 @@
 package org.duffy.ticketing.domain.wishlist.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.duffy.ticketing.domain.account.Account;
 import org.duffy.ticketing.domain.account.BuyerAccount;
 import org.duffy.ticketing.domain.account.repository.AccountRepository;
 import org.duffy.ticketing.domain.wishlist.dto.ReserveConcertRequest;
 import org.duffy.ticketing.domain.wishlist.service.WishlistService;
 import org.duffy.ticketing.domain.wishlist.dto.WishlistResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,20 +19,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WishlistController {
     private final WishlistService wishlistService;
-    private final AccountRepository accountRepository;
 
     @GetMapping
-    public ResponseEntity<List<WishlistResponse>> getWishList() {
-        // TODO: JWT를 이용한 사용자 조회로 변경
-        BuyerAccount buyer = (BuyerAccount) accountRepository.findById(3L).get();
-        return ResponseEntity.ok(wishlistService.getWishlist(buyer));
+    public ResponseEntity<List<WishlistResponse>> getWishList(@AuthenticationPrincipal Account account) {
+        return ResponseEntity.ok(wishlistService.getWishlist((BuyerAccount) account));
     }
 
     @PostMapping
-    public ResponseEntity<Boolean> addToWishlist(@RequestBody ReserveConcertRequest concertRequest) {
-        // TODO: JWT를 이용한 사용자 조회로 변경
-        BuyerAccount buyer = (BuyerAccount) accountRepository.findById(3L).get();
-        wishlistService.addToWishlist(concertRequest, buyer);
+    public ResponseEntity<Boolean> addToWishlist(@AuthenticationPrincipal Account account,
+                                                 @RequestBody ReserveConcertRequest concertRequest) {
+        wishlistService.addToWishlist(concertRequest, (BuyerAccount) account);
         return ResponseEntity.ok(true);
     }
 }
