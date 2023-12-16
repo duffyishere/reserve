@@ -11,7 +11,6 @@ import org.duffy.ticketing.domain.concert.service.ConcertService;
 import org.duffy.ticketing.domain.wishlist.SeatWishlist;
 import org.duffy.ticketing.domain.wishlist.repository.SeatWishlistRepository;
 import org.duffy.ticketing.domain.wishlist.dto.WishlistResponse;
-import org.duffy.ticketing.global.config.JwtService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.duffy.ticketing.global.config;
+package org.duffy.ticketing.global.config.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

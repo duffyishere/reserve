@@ -1,4 +1,4 @@
-package org.duffy.ticketing.global.config;
+package org.duffy.ticketing.global.config.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
