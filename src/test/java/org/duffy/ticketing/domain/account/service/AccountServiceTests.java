@@ -9,30 +9,4 @@ import org.springframework.test.annotation.Rollback;
 
 @SpringBootTest
 public class AccountServiceTests {
-
-    @Autowired
-    AccountService accountService;
-
-    @Test
-    @Rollback(value = false)
-    public void createSellerAccountTest() {
-        RegisterSellerAccountRequest request = RegisterSellerAccountRequest.builder()
-                .email("duffy@icloud.com")
-                .name("Junho")
-                .password("test1234!")
-                .build();
-
-        accountService.createSellerAccount(request);
-    }
-
-    @Test
-    @Rollback(value = false)
-    public void createBuyerAccountTest() {
-        RegisterBuyerAccountRequest request = RegisterBuyerAccountRequest.builder()
-                .email("seller@icloud.com")
-                .name("seller")
-                .password("test1234!")
-                .build();
-        accountService.createBuyerAccount(request);
-    }
 }

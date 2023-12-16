@@ -26,6 +26,7 @@ public class SecurityConfiguration {
             new AntPathRequestMatcher("/swagger-ui.html"),
             new AntPathRequestMatcher("/v3/**"),
             new AntPathRequestMatcher("/swagger-ui/**"),
+            new AntPathRequestMatcher("/error"),
     };
 
     private final JwtAuthenticationFilter jwtAuthFilter;

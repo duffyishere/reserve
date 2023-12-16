@@ -28,24 +28,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
 
     @Override
-    protected void doFilterInternal(
-            @NonNull HttpServletRequest request,
-            @NonNull HttpServletResponse response,
-            @NonNull FilterChain filterChain
-    ) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         if (request.getServletPath().contains(SIGN_IN_URL)) {
             filterChain.doFilter(request, response);
             return;
         }
-        final String authHeader = request.getHeader(AUTH_HEADER_NAME);
-        final String jwt;
-        final String userEmail;
+
+        String authHeader = request.getHeader(AUTH_HEADER_NAME);
         if (authHeader == null ||!authHeader.startsWith(AUTH_HEADER_PREFIX)) {
             filterChain.doFilter(request, response);
             return;
         }
-        jwt = authHeader.substring(AUTH_HEADER_PREFIX.length());
-        userEmail = jwtService.extractUsername(jwt);
+
+        String jwt = authHeader.substring(AUTH_HEADER_PREFIX.length());
+        String userEmail = jwtService.extractUsername(jwt);
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
             boolean isTokenValid = jwtService.isTokenValid(jwt, userDetails);
